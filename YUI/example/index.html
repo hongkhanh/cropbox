@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Tinny Cropper</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <style>
+        .container
+        {
+            position: absolute;
+            top: 10%; left: 10%; right: 0; bottom: 0;
+        }
+        .action
+        {
+            width: 300px;
+            height: 30px;
+            margin: 10px 0;
+        }
+        .cropped>img
+        {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
+<script src="../TinyCropper.js"></script>
+<div class="container">
+    <div class="imageBox">
+        <div class="thumbBox"></div>
+        <div class="spinner" style="display: none"></div>
+    </div>
+    <div class="action">
+        <input type="file" id="file" style="float:left">
+        <input type="button" id="btnCrop" value="Crop" style="float: right">
+    </div>
+    <div class="cropped">
+
+    </div>
+</div>
+<script type="text/javascript">
+    YUI().use('node', 'tiny-cropper', function(Y){
+        var options =
+        {
+            imageBox: '.imageBox',
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png'
+        }
+        var cropper = new Y.TinnyCropper(options);
+
+        Y.one('#file').on('change', function(){
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                cropper = new Y.TinnyCropper(options);
+            }
+            reader.readAsDataURL(this.get('files')._nodes[0]);
+            this.get('files')._nodes = [];
+        })
+
+        Y.one('#btnCrop').on('click', function(){
+            var img = cropper.getAvatar()
+            Y.one('.cropped').append('<img src="'+img+'">');
+        })
+    })
+</script>
+
+</body>
+</html>
