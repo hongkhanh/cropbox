@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Cropbox : A lightweight  and simple JavaScript, Jquery, YUI plugin to crop your avatar">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Cropbox</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/hongkhanh/CropBox">View on GitHub</a>
+
+          <h1 id="project_title">Cropbox</h1>
+          <h2 id="project_tagline">A lightweight  and simple JavaScript, Jquery, YUI plugin to crop your avatar</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/hongkhanh/CropBox/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/hongkhanh/CropBox/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a name="screenshot" class="anchor" href="#screenshot"><span class="octicon octicon-link"></span></a>Screenshot</h2>
+
+<p><img src="https://raw.githubusercontent.com/hongkhanh/CropBox/master/screenshot.png" alt="screenshot"></p>
+
+<h1>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<h2>
+<a name="pure-javascript" class="anchor" href="#pure-javascript"><span class="octicon octicon-link"></span></a>Pure javascript</h2>
+
+<pre><code>window.onload = function() {
+    var options =
+    {
+        imageBox: '.imageBox',
+        thumbBox: '.thumbBox',
+        spinner: '.spinner',
+        imgSrc: 'avatar.png'
+    }
+    var cropper = new CropBox(options);
+    document.querySelector('#file').addEventListener('change', function(){
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            options.imgSrc = e.target.result;
+            cropper = new CropBox(options);
+        }
+        reader.readAsDataURL(this.files[0]);
+        this.files = [];
+    })
+    document.querySelector('#btnCrop').addEventListener('click', function(){
+        var img = cropper.getAvatar()
+        document.querySelector('.cropped').innerHTML += '&lt;img src="'+img+'"&gt;';
+    })
+    document.querySelector('#btnZoomIn').addEventListener('click', function(){
+        cropper.zoomIn();
+    })
+    document.querySelector('#btnZoomOut').addEventListener('click', function(){
+        cropper.zoomOut();
+    })
+};
+</code></pre>
+
+<p><a href="http://cssdeck.com/labs/xnmcokhc">Demo</a></p>
+
+<h2>
+<a name="jquery-plugin" class="anchor" href="#jquery-plugin"><span class="octicon octicon-link"></span></a>Jquery plugin</h2>
+
+<pre><code>$(window).load(function() {
+    var options =
+    {
+        thumbBox: '.thumbBox',
+        spinner: '.spinner',
+        imgSrc: 'avatar.png'
+    }
+    var cropper = $('.imageBox').CropBox(options);
+    $('#file').on('change', function(){
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            options.imgSrc = e.target.result;
+            cropper = $('.imageBox').CropBox(options);
+        }
+        reader.readAsDataURL(this.files[0]);
+        this.files = [];
+    })
+    $('#btnCrop').on('click', function(){
+        var img = cropper.getAvatar()
+        $('.cropped').append('&lt;img src="'+img+'"&gt;');
+    })
+    $('#btnZoomIn').on('click', function(){
+        cropper.zoomIn();
+    })
+    $('#btnZoomOut').on('click', function(){
+        cropper.zoomOut();
+    })
+});
+</code></pre>
+
+<p><a href="http://cssdeck.com/labs/t8bdodvj">Demo</a></p>
+
+<h2>
+<a name="yui-plugin" class="anchor" href="#yui-plugin"><span class="octicon octicon-link"></span></a>YUI plugin</h2>
+
+<pre><code>YUI().use('node', 'crop-box', function(Y){
+    var options =
+    {
+        imageBox: '.imageBox',
+        thumbBox: '.thumbBox',
+        spinner: '.spinner',
+        imgSrc: 'avatar.png'
+    }
+    var cropper = new Y.CropBox(options);
+    Y.one('#file').on('change', function(){
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            options.imgSrc = e.target.result;
+            cropper = new Y.CropBox(options);
+        }
+        reader.readAsDataURL(this.get('files')._nodes[0]);
+        this.get('files')._nodes = [];
+    })
+    Y.one('#btnCrop').on('click', function(){
+        var img = cropper.getAvatar()
+        Y.one('.cropped').append('&lt;img src="'+img+'"&gt;');
+    })
+    Y.one('#btnZoomIn').on('click', function(){
+        cropper.zoomIn();
+    })
+    Y.one('#btnZoomOut').on('click', function(){
+        cropper.zoomOut();
+    })
+})
+</code></pre>
+
+<p><a href="http://cssdeck.com/labs/kugvd9kp">Demo</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Cropbox maintained by <a href="https://github.com/hongkhanh">hongkhanh</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
