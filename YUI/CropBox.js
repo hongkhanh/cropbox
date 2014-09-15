@@ -2,8 +2,8 @@
  * Created by ezgoing on 14/9/2014.
  */
 
-YUI.add('tiny-cropper', function (Y) {
-    Y.TinnyCropper = Y.Base.create('cropper', Y.Base, [],
+YUI.add('crop-box', function (Y) {
+    Y.CropBox = Y.Base.create('crop-box', Y.Base, [],
         {
             initializer: function (options)
             {
@@ -116,6 +116,16 @@ YUI.add('tiny-cropper', function (Y) {
                 var imageData = canvas.toDataURL('image/jpeg');
 
                 return imageData;
+            },
+            zoomIn: function ()
+            {
+                this.ratio*=1.1;
+                this.setBackground();
+            },
+            zoomOut: function ()
+            {
+                this.ratio*=0.9;
+                this.setBackground();
             },
             destructor: function ()
             {

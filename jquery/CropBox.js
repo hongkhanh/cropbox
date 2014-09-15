@@ -2,7 +2,7 @@
  * Created by ezgoing on 14/9/2014.
  */
 
-var TinnyCropper = function(options, el){
+var CropBox = function(options, el){
     var el = el || $(options.imageBox),
     obj =
     {
@@ -33,6 +33,16 @@ var TinnyCropper = function(options, el){
             context.drawImage(this.image, 0, 0, sw, sh, dx, dy, dw, dh);
             var imageData = canvas.toDataURL('image/jpeg');
             return imageData;
+        },
+        zoomIn: function ()
+        {
+            this.ratio*=1.1;
+            setBackground();
+        },
+        zoomOut: function ()
+        {
+            this.ratio*=0.9;
+            setBackground();
         }
     },
     setBackground = function()
@@ -104,6 +114,6 @@ var TinnyCropper = function(options, el){
     return obj;
 };
 
-jQuery.fn.TinnyCropper = function(options){
-    return new TinnyCropper(options, this);
+jQuery.fn.CropBox = function(options){
+    return new CropBox(options, this);
 };

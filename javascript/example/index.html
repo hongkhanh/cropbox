@@ -24,15 +24,17 @@
 </head>
 <body>
 
-<script src="../TinyCropper.js"></script>
+<script src="../CropBox.js"></script>
 <div class="container">
     <div class="imageBox">
         <div class="thumbBox"></div>
         <div class="spinner" style="display: none"></div>
     </div>
     <div class="action">
-        <input type="file" id="file" style="float:left; width: 220px">
+        <input type="file" id="file" style="float:left; width: 180px">
         <input type="button" id="btnCrop" value="Crop" style="float: right">
+        <input type="button" id="btnZoomIn" value="+" style="float: right">
+        <input type="button" id="btnZoomOut" value="-" style="float: right">
     </div>
     <div class="cropped">
 
@@ -47,21 +49,25 @@
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = new TinnyCropper(options);
-
+        var cropper = new CropBox(options);
         document.querySelector('#file').addEventListener('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = new TinnyCropper(options);
+                cropper = new CropBox(options);
             }
             reader.readAsDataURL(this.files[0]);
             this.files = [];
         })
-
         document.querySelector('#btnCrop').addEventListener('click', function(){
             var img = cropper.getAvatar()
             document.querySelector('.cropped').innerHTML += '<img src="'+img+'">';
+        })
+        document.querySelector('#btnZoomIn').addEventListener('click', function(){
+            cropper.zoomIn();
+        })
+        document.querySelector('#btnZoomOut').addEventListener('click', function(){
+            cropper.zoomOut();
         })
     };
 </script>
