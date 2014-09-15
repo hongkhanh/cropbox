@@ -12,7 +12,7 @@
         }
         .action
         {
-            width: 300px;
+            width: 400px;
             height: 30px;
             margin: 10px 0;
         }
@@ -24,14 +24,14 @@
 </head>
 <body>
 
-<script src="../CropBox.js"></script>
+<script src="../cropbox.js"></script>
 <div class="container">
     <div class="imageBox">
         <div class="thumbBox"></div>
         <div class="spinner" style="display: none">Loading...</div>
     </div>
     <div class="action">
-        <input type="file" id="file" style="float:left; width: 180px">
+        <input type="file" id="file" style="float:left; width: 250px">
         <input type="button" id="btnCrop" value="Crop" style="float: right">
         <input type="button" id="btnZoomIn" value="+" style="float: right">
         <input type="button" id="btnZoomOut" value="-" style="float: right">
@@ -49,12 +49,12 @@
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = new CropBox(options);
+        var cropper = new cropbox(options);
         document.querySelector('#file').addEventListener('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = new CropBox(options);
+                cropper = new cropbox(options);
             }
             reader.readAsDataURL(this.files[0]);
             this.files = [];

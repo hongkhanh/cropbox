@@ -3,7 +3,7 @@
  */
 
 YUI.add('crop-box', function (Y) {
-    Y.CropBox = Y.Base.create('crop-box', Y.Base, [],
+    Y.cropbox = Y.Base.create('crop-box', Y.Base, [],
         {
             initializer: function (options)
             {

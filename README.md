@@ -1,9 +1,9 @@
-CropBox.js
+cropbox.js
 =======
 A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
 
 ##Screenshot
-![ScreenShot](/screenshot.png)
+![ScreenShot](/screenshot.jpg)
 
 # Usage
 
@@ -17,12 +17,12 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = new CropBox(options);
+        var cropper = new cropbox(options);
         document.querySelector('#file').addEventListener('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = new CropBox(options);
+                cropper = new cropbox(options);
             }
             reader.readAsDataURL(this.files[0]);
             this.files = [];
@@ -50,12 +50,12 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = $('.imageBox').CropBox(options);
+        var cropper = $('.imageBox').cropbox(options);
         $('#file').on('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = $('.imageBox').CropBox(options);
+                cropper = $('.imageBox').cropbox(options);
             }
             reader.readAsDataURL(this.files[0]);
             this.files = [];
@@ -84,12 +84,12 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = new Y.CropBox(options);
+        var cropper = new Y.cropbox(options);
         Y.one('#file').on('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = new Y.CropBox(options);
+                cropper = new Y.cropbox(options);
             }
             reader.readAsDataURL(this.get('files')._nodes[0]);
             this.get('files')._nodes = [];

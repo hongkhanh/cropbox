@@ -2,7 +2,7 @@
  * Created by ezgoing on 14/9/2014.
  */
 
-var CropBox = function(options){
+var cropbox = function(options){
     var el = document.querySelector(options.imageBox),
     obj =
     {

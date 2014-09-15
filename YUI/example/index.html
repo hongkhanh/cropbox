@@ -12,7 +12,7 @@
         }
         .action
         {
-            width: 300px;
+            width: 400px;
             height: 30px;
             margin: 10px 0;
         }
@@ -25,14 +25,14 @@
 <body>
 
 <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
-<script src="../CropBox.js"></script>
+<script src="../cropbox.js"></script>
 <div class="container">
     <div class="imageBox">
         <div class="thumbBox"></div>
         <div class="spinner" style="display: none">Loading...</div>
     </div>
     <div class="action">
-        <input type="file" id="file" style="float:left; width: 180px">
+        <input type="file" id="file" style="float:left; width: 250px">
         <input type="button" id="btnCrop" value="Crop" style="float: right">
         <input type="button" id="btnZoomIn" value="+" style="float: right">
         <input type="button" id="btnZoomOut" value="-" style="float: right">
@@ -50,12 +50,12 @@
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = new Y.CropBox(options);
+        var cropper = new Y.cropbox(options);
         Y.one('#file').on('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = new Y.CropBox(options);
+                cropper = new Y.cropbox(options);
             }
             reader.readAsDataURL(this.get('files')._nodes[0]);
             this.get('files')._nodes = [];

@@ -2,7 +2,7 @@
  * Created by ezgoing on 14/9/2014.
  */
 
-var CropBox = function(options, el){
+var cropbox = function(options, el){
     var el = el || $(options.imageBox),
     obj =
     {
@@ -114,6 +114,6 @@ var CropBox = function(options, el){
     return obj;
 };
 
-jQuery.fn.CropBox = function(options){
-    return new CropBox(options, this);
+jQuery.fn.cropbox = function(options){
+    return new cropbox(options, this);
 };
