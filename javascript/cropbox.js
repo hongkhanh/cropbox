@@ -56,6 +56,10 @@ var cropbox = function(options){
             setBackground();
         }
     },
+    stopEvent = function (e) {
+        if(window.event) e.cancelBubble = true;
+        else e.stopImmediatePropagation();
+    },
     setBackground = function()
     {
         var w =  parseInt(obj.image.width)*obj.ratio;
@@ -72,7 +76,7 @@ var cropbox = function(options){
     },
     imgMouseDown = function(e)
     {
-        e.stopImmediatePropagation();
+        stopEvent(e);
 
         obj.state.dragable = true;
         obj.state.mouseX = e.clientX;
@@ -80,7 +84,7 @@ var cropbox = function(options){
     },
     imgMouseMove = function(e)
     {
-        e.stopImmediatePropagation();
+        stopEvent(e);
 
         if (obj.state.dragable)
         {
@@ -100,7 +104,7 @@ var cropbox = function(options){
     },
     imgMouseUp = function(e)
     {
-        e.stopImmediatePropagation();
+        stopEvent(e);
         obj.state.dragable = false;
     },
     zoomImage = function(e)
@@ -113,14 +117,14 @@ var cropbox = function(options){
     attachEvent = function(node, event, cb)
     {
         if (node.attachEvent)
-            node.attachEvent('on'+event, cb)
+            node.attachEvent('on'+event, cb);
         else if (node.addEventListener)
-            node.addEventListener(event, cb)
+            node.addEventListener(event, cb);
     },
     detachEvent = function(node, event, cb)
     {
         if(node.detachEvent) {
-            node.detachEvent('on'+event, cb)
+            node.detachEvent('on'+event, cb);
         }
         else if(node.removeEventListener) {
             node.removeEventListener(event, render);
@@ -134,12 +138,12 @@ var cropbox = function(options){
 
         attachEvent(el, 'mousedown', imgMouseDown);
         attachEvent(el, 'mousemove', imgMouseMove);
-        attachEvent(window, 'mouseup', imgMouseUp);
+        attachEvent(document.body, 'mouseup', imgMouseUp);
         var mousewheel = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
         attachEvent(el, mousewheel, zoomImage);
     };
     obj.image.src = options.imgSrc;
-    attachEvent(el, 'DOMNodeRemoved', function(){detachEvent(window, 'DOMNodeRemoved', imgMouseUp)});
+    attachEvent(el, 'DOMNodeRemoved', function(){detachEvent(document.body, 'DOMNodeRemoved', imgMouseUp)});
 
     return obj;
 };
