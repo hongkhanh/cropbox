@@ -24,7 +24,6 @@
 </head>
 <body>
 
-<script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
 <script src="../TinyCropper.js"></script>
 <div class="container">
     <div class="imageBox">
@@ -40,7 +39,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    YUI().use('node', 'tiny-cropper', function(Y){
+    window.onload = function() {
         var options =
         {
             imageBox: '.imageBox',
@@ -48,23 +47,23 @@
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = new Y.TinnyCropper(options);
+        var cropper = new TinnyCropper(options);
 
-        Y.one('#file').on('change', function(){
+        document.querySelector('#file').addEventListener('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = new Y.TinnyCropper(options);
+                cropper = new TinnyCropper(options);
             }
-            reader.readAsDataURL(this.get('files')._nodes[0]);
-            this.get('files')._nodes = [];
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
         })
 
-        Y.one('#btnCrop').on('click', function(){
+        document.querySelector('#btnCrop').addEventListener('click', function(){
             var img = cropper.getAvatar()
-            Y.one('.cropped').append('<img src="'+img+'">');
+            document.querySelector('.cropped').innerHTML += '<img src="'+img+'">';
         })
-    })
+    };
 </script>
 
 </body>

@@ -11,17 +11,17 @@ YUI.add('tiny-cropper', function (Y) {
                 this.state = {};
                 this.render();
             },
-            render: function (srcNode)
+            render: function ()
             {
                 var self = this;
                 this.imageBox = Y.one(this.options.imageBox);
                 this.thumbBox = this.imageBox.one(this.options.thumbBox);
                 this.spinner = this.imageBox.one(this.options.spinner);
 
-                this.initObject(this.options.image);
+                this.initObject();
                 return this;
             },
-            initObject: function(file)
+            initObject: function()
             {
                 var self = this;
                 this.spinner.show();
@@ -122,7 +122,6 @@ YUI.add('tiny-cropper', function (Y) {
                 if (this.mouseup) this.mouseup.detach()
             }
         });
-
 }, '1.0',
 {
     requires: [ 'node', 'base' ]
