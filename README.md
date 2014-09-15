@@ -2,10 +2,7 @@ CropBox.js
 =======
 A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
 
-Features
-
-    Fully customize theme via CSS
-
+##Screenshot
 ![ScreenShot](/screenshot.png)
 
 # Usage
