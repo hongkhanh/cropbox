@@ -56,6 +56,22 @@ var cropbox = function(options){
             setBackground();
         }
     },
+    attachEvent = function(node, event, cb)
+    {
+        if (node.attachEvent)
+            node.attachEvent('on'+event, cb);
+        else if (node.addEventListener)
+            node.addEventListener(event, cb);
+    },
+    detachEvent = function(node, event, cb)
+    {
+        if(node.detachEvent) {
+            node.detachEvent('on'+event, cb);
+        }
+        else if(node.removeEventListener) {
+            node.removeEventListener(event, render);
+        }
+    }
     stopEvent = function (e) {
         if(window.event) e.cancelBubble = true;
         else e.stopImmediatePropagation();
@@ -113,22 +129,6 @@ var cropbox = function(options){
         var delta=evt.detail? evt.detail*(-120) : evt.wheelDelta;
         delta > -120 ? obj.ratio*=1.1 : obj.ratio*=0.9;
         setBackground();
-    },
-    attachEvent = function(node, event, cb)
-    {
-        if (node.attachEvent)
-            node.attachEvent('on'+event, cb);
-        else if (node.addEventListener)
-            node.addEventListener(event, cb);
-    },
-    detachEvent = function(node, event, cb)
-    {
-        if(node.detachEvent) {
-            node.detachEvent('on'+event, cb);
-        }
-        else if(node.removeEventListener) {
-            node.removeEventListener(event, render);
-        }
     }
 
     obj.spinner.style.display = 'block';
