@@ -31,16 +31,21 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h2>
+        <h1>
+<a name="cropboxjs" class="anchor" href="#cropboxjs"><span class="octicon octicon-link"></span></a>cropbox.js</h1>
+
+<p>A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.</p>
+
+<h2>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
-<li>support dataUrl for displaying image (function getAvatar)</li>
-<li>support Blob for uploading image (function getBlobFile)</li>
+<li>support dataUrl for displaying image (function getDataURL)</li>
+<li>support Blob for uploading image (function getBlob)</li>
 </ul><h2>
 <a name="screenshot" class="anchor" href="#screenshot"><span class="octicon octicon-link"></span></a>Screenshot</h2>
 
-<p><img src="https://raw.githubusercontent.com/hongkhanh/cropbox/master/screenshot.jpg" alt="screenshot"></p>
+<p><img src="/screenshot.jpg" alt="ScreenShot"></p>
 
 <h1>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
@@ -56,18 +61,18 @@
         spinner: '.spinner',
         imgSrc: 'avatar.png'
     }
-    var cropper = new CropBox(options);
+    var cropper = new cropbox(options);
     document.querySelector('#file').addEventListener('change', function(){
         var reader = new FileReader();
         reader.onload = function(e) {
             options.imgSrc = e.target.result;
-            cropper = new CropBox(options);
+            cropper = new cropbox(options);
         }
         reader.readAsDataURL(this.files[0]);
         this.files = [];
     })
     document.querySelector('#btnCrop').addEventListener('click', function(){
-        var img = cropper.getAvatar()
+        var img = cropper.getDataURL()
         document.querySelector('.cropped').innerHTML += '&lt;img src="'+img+'"&gt;';
     })
     document.querySelector('#btnZoomIn').addEventListener('click', function(){
@@ -91,18 +96,18 @@
         spinner: '.spinner',
         imgSrc: 'avatar.png'
     }
-    var cropper = $('.imageBox').CropBox(options);
+    var cropper = $('.imageBox').cropbox(options);
     $('#file').on('change', function(){
         var reader = new FileReader();
         reader.onload = function(e) {
             options.imgSrc = e.target.result;
-            cropper = $('.imageBox').CropBox(options);
+            cropper = $('.imageBox').cropbox(options);
         }
         reader.readAsDataURL(this.files[0]);
         this.files = [];
     })
     $('#btnCrop').on('click', function(){
-        var img = cropper.getAvatar()
+        var img = cropper.getDataURL()
         $('.cropped').append('&lt;img src="'+img+'"&gt;');
     })
     $('#btnZoomIn').on('click', function(){
@@ -112,6 +117,44 @@
         cropper.zoomOut();
     })
 });
+
+// use with require js (new feature added on 9 Oct 2014)
+require.config({
+    baseUrl: "../",
+    paths: {
+        jquery: 'jquery-1.11.1.min',
+        cropbox: 'cropbox'
+    }
+});
+require( ["jquery", "cropbox"], function($) {
+    var options =
+    {
+        thumbBox: '.thumbBox',
+        spinner: '.spinner',
+        imgSrc: 'avatar.png'
+    }
+    var cropper = $('.imageBox').cropbox(options);
+    $('#file').on('change', function(){
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            options.imgSrc = e.target.result;
+            cropper = $('.imageBox').cropbox(options);
+        }
+        reader.readAsDataURL(this.files[0]);
+        this.files = [];
+    })
+    $('#btnCrop').on('click', function(){
+        var img = cropper.getDataURL();
+        $('.cropped').append('&lt;img src="'+img+'"&gt;');
+    })
+    $('#btnZoomIn').on('click', function(){
+        cropper.zoomIn();
+    })
+    $('#btnZoomOut').on('click', function(){
+        cropper.zoomOut();
+    })
+    }
+);
 </code></pre>
 
 <p><a href="http://cssdeck.com/labs/t8bdodvj">Demo</a></p>
@@ -127,18 +170,18 @@
         spinner: '.spinner',
         imgSrc: 'avatar.png'
     }
-    var cropper = new Y.CropBox(options);
+    var cropper = new Y.cropbox(options);
     Y.one('#file').on('change', function(){
         var reader = new FileReader();
         reader.onload = function(e) {
             options.imgSrc = e.target.result;
-            cropper = new Y.CropBox(options);
+            cropper = new Y.cropbox(options);
         }
         reader.readAsDataURL(this.get('files')._nodes[0]);
         this.get('files')._nodes = [];
     })
     Y.one('#btnCrop').on('click', function(){
-        var img = cropper.getAvatar()
+        var img = cropper.getDataURL()
         Y.one('.cropped').append('&lt;img src="'+img+'"&gt;');
     })
     Y.one('#btnZoomIn').on('click', function(){
