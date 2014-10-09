@@ -1,7 +1,7 @@
 /**
  * Created by ezgoing on 14/9/2014.
  */
-
+'use strict';
 var cropbox = function(options){
     var el = document.querySelector(options.imageBox),
     obj =
@@ -13,7 +13,7 @@ var cropbox = function(options){
         thumbBox : el.querySelector(options.thumbBox),
         spinner : el.querySelector(options.spinner),
         image : new Image(),
-        getAvatar: function ()
+        getDataURL: function ()
         {
             var width = this.thumbBox.clientWidth,
                 height = this.thumbBox.clientHeight,
@@ -22,10 +22,10 @@ var cropbox = function(options){
                 size = el.style.backgroundSize.split(' '),
                 dx = parseInt(dim[0]) - el.clientWidth/2 + width/2,
                 dy = parseInt(dim[1]) - el.clientHeight/2 + height/2,
-                dw = parseInt(size[0]);
-            dh = parseInt(size[1]);
-            sh = parseInt(this.image.height);
-            sw = parseInt(this.image.width);
+                dw = parseInt(size[0]),
+                dh = parseInt(size[1]),
+                sh = parseInt(this.image.height),
+                sw = parseInt(this.image.width);
 
             canvas.width = width;
             canvas.height = height;
@@ -34,9 +34,9 @@ var cropbox = function(options){
             var imageData = canvas.toDataURL('image/png');
             return imageData;
         },
-        getBlobFile: function()
+        getBlob: function()
         {
-            var imageData = this.getAvatar();
+            var imageData = this.getDataURL();
             var b64 = imageData.replace('data:image/png;base64,','');
             var binary = atob(b64);
             var array = [];
@@ -71,7 +71,7 @@ var cropbox = function(options){
         else if(node.removeEventListener) {
             node.removeEventListener(event, render);
         }
-    }
+    },
     stopEvent = function (e) {
         if(window.event) e.cancelBubble = true;
         else e.stopImmediatePropagation();

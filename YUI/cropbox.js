@@ -1,7 +1,7 @@
 /**
  * Created by ezgoing on 14/9/2014.
  */
-
+'use strict';
 YUI.add('crop-box', function (Y) {
     Y.cropbox = Y.Base.create('crop-box', Y.Base, [],
         {
@@ -94,7 +94,7 @@ YUI.add('crop-box', function (Y) {
                 e.wheelDelta > 0? this.ratio*=1.1 : this.ratio*=0.9;
                 this.setBackground();
             },
-            getAvatar: function ()
+            getDataURL: function ()
             {
                 var self = this,
                     width = this.thumbBox.get('clientWidth'),
@@ -104,9 +104,9 @@ YUI.add('crop-box', function (Y) {
                     size = this.imageBox.getStyle('backgroundSize').split(' '),
                     dx = parseInt(dim[0]) - this.imageBox.get('clientWidth')/2 + width/2,
                     dy = parseInt(dim[1]) - this.imageBox.get('clientHeight')/2 + height/2,
-                    dw = parseInt(size[0]);
-                    dh = parseInt(size[1]);
-                    sh = parseInt(this.image.height);
+                    dw = parseInt(size[0]),
+                    dh = parseInt(size[1]),
+                    sh = parseInt(this.image.height),
                     sw = parseInt(this.image.width);
 
                 canvas.width = width;
@@ -117,9 +117,9 @@ YUI.add('crop-box', function (Y) {
 
                 return imageData;
             },
-            getBlobFile: function()
+            getBlob: function()
             {
-                var imageData = this.getAvatar();
+                var imageData = this.getDataURL();
                 var b64 = imageData.replace('data:image/png;base64,','');
                 var binary = atob(b64);
                 var array = [];

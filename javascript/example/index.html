@@ -60,7 +60,7 @@
             this.files = [];
         })
         document.querySelector('#btnCrop').addEventListener('click', function(){
-            var img = cropper.getAvatar()
+            var img = cropper.getDataURL();
             document.querySelector('.cropped').innerHTML += '<img src="'+img+'">';
         })
         document.querySelector('#btnZoomIn').addEventListener('click', function(){

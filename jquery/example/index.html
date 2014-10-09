@@ -60,7 +60,7 @@
             this.files = [];
         })
         $('#btnCrop').on('click', function(){
-            var img = cropper.getAvatar()
+            var img = cropper.getDataURL();
             $('.cropped').append('<img src="'+img+'">');
         })
         $('#btnZoomIn').on('click', function(){

@@ -24,8 +24,6 @@
 </head>
 <body>
 
-<script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
-<script src="../cropbox.js"></script>
 <div class="container">
     <div class="imageBox">
         <div class="thumbBox"></div>
@@ -41,36 +39,45 @@
 
     </div>
 </div>
-<script type="text/javascript">
-    YUI().use('node', 'crop-box', function(Y){
+
+<script src="../require.js"></script>
+<script>
+    require.config({
+        baseUrl: "../",
+        paths: {
+            jquery: 'jquery-1.11.1.min',
+            cropbox: 'cropbox'
+        }
+    });
+    require( ["jquery", "cropbox"], function($) {
         var options =
         {
-            imageBox: '.imageBox',
             thumbBox: '.thumbBox',
             spinner: '.spinner',
             imgSrc: 'avatar.png'
         }
-        var cropper = new Y.cropbox(options);
-        Y.one('#file').on('change', function(){
+        var cropper = $('.imageBox').cropbox(options);
+        $('#file').on('change', function(){
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
-                cropper = new Y.cropbox(options);
+                cropper = $('.imageBox').cropbox(options);
             }
-            reader.readAsDataURL(this.get('files')._nodes[0]);
-            this.get('files')._nodes = [];
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
         })
-        Y.one('#btnCrop').on('click', function(){
-            var img = cropper.getDataURL()
-            Y.one('.cropped').append('<img src="'+img+'">');
+        $('#btnCrop').on('click', function(){
+            var img = cropper.getDataURL();
+            $('.cropped').append('<img src="'+img+'">');
         })
-        Y.one('#btnZoomIn').on('click', function(){
+        $('#btnZoomIn').on('click', function(){
             cropper.zoomIn();
         })
-        Y.one('#btnZoomOut').on('click', function(){
+        $('#btnZoomOut').on('click', function(){
             cropper.zoomOut();
         })
-    })
+        }
+    );
 </script>
 
 </body>
