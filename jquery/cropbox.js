@@ -16,6 +16,7 @@
             {
                 state : {},
                 ratio : 1,
+                angle: 0,
                 options : options,
                 imageBox : el,
                 thumbBox : el.find(options.thumbBox),
@@ -26,6 +27,7 @@
                     var width = this.thumbBox.width(),
                         height = this.thumbBox.height(),
                         canvas = document.createElement("canvas"),
+                        canvasRotate = document.createElement("canvas"),                                                
                         dim = el.css('background-position').split(' '),
                         size = el.css('background-size').split(' '),
                         dx = parseInt(dim[0]) - el.width()/2 + width/2,
@@ -38,8 +40,24 @@
                     canvas.width = width;
                     canvas.height = height;
                     var context = canvas.getContext("2d");
-                    context.drawImage(this.image, 0, 0, sw, sh, dx, dy, dw, dh);
-                    var imageData = canvas.toDataURL('image/png');
+                    
+                    context.drawImage(this.image, 0, 0, sw, sh, dx, dy, dw, dh);  
+                                        
+                    canvasRotate.width = width;
+                    canvasRotate.height = height;
+                    var contextRotate = canvasRotate.getContext("2d"); 
+                    
+                    if(this.angle){                                               
+                        contextRotate.save();                        
+                        contextRotate.translate(width/2, height/2);                            
+                        contextRotate.rotate(this.angle*Math.PI / 180)
+                        contextRotate.drawImage(canvas,-width/2,-height/2);                        
+                        contextRotate.restore();
+                    }else{
+                        contextRotate.drawImage(canvas,0,0);
+                    }
+                                                           
+                    var imageData = canvasRotate.toDataURL('image/png');
                     return imageData;
                 },
                 getBlob: function()
@@ -62,6 +80,12 @@
                 {
                     this.ratio*=0.9;
                     setBackground();
+                },
+                rotate: function()
+                {
+                    this.angle += 90;
+                    if(this.angle >= 360) this.angle=0;
+                    setBackground();            
                 }
             },
             setBackground = function()
@@ -76,7 +100,14 @@
                     'background-image': 'url(' + obj.image.src + ')',
                     'background-size': w +'px ' + h + 'px',
                     'background-position': pw + 'px ' + ph + 'px',
-                    'background-repeat': 'no-repeat'});
+                    'background-repeat': 'no-repeat',
+                    '-webkit-transform':'rotate(' + obj.angle + 'deg)',
+                    '-moz-transform':'rotate(' + obj.angle + 'deg)',                    
+                    'ms-transform':'rotate(' + obj.angle + 'deg)',
+                    '-o-transform':'rotate(' + obj.angle + 'deg)',
+                    'transform':'rotate(' + obj.angle + 'deg)'});
+                
+                obj.getDataURL();
             },
             imgMouseDown = function(e)
             {
@@ -94,14 +125,25 @@
                 {
                     var x = e.clientX - obj.state.mouseX;
                     var y = e.clientY - obj.state.mouseY;
-
+                   
                     var bg = el.css('background-position').split(' ');
-
+                    
                     var bgX = x + parseInt(bg[0]);
                     var bgY = y + parseInt(bg[1]);
-
+                    
+                    if(90 == obj.angle){
+                        bgX = y + parseInt(bg[0]);
+                        bgY = -x + parseInt(bg[1]);
+                    }else if(180 == obj.angle){
+                        bgX = -x + parseInt(bg[0]);
+                        bgY = -y + parseInt(bg[1]);
+                    }else if(270 == obj.angle){
+                        bgX = -y + parseInt(bg[0]);
+                        bgY = x + parseInt(bg[1]);
+                    }                   
+                                            
                     el.css('background-position', bgX +'px ' + bgY + 'px');
-
+                    
                     obj.state.mouseX = e.clientX;
                     obj.state.mouseY = e.clientY;
                 }
@@ -137,5 +179,4 @@
         return new cropbox(options, this);
     };
 }));
-
-
+                
