@@ -2,7 +2,25 @@
  * Created by ezgoing on 14/9/2014.
  */
 'use strict';
-var cropbox = function(options){
+var cropbox = function(options) {
+    var defaults = {
+        scrollToZoom : true
+    }
+
+    options = extend(defaults, options);
+
+    function extend(a, b) {
+        for(var i=1; i<arguments.length; i++) {
+            for(var key in arguments[i]) {
+                if(arguments[i].hasOwnProperty(key)) {
+                    arguments[0][key] = arguments[i][key];
+                }
+            }
+        }
+
+        return arguments[0];
+    }
+
     var el = document.querySelector(options.imageBox),
     obj =
     {
@@ -139,8 +157,10 @@ var cropbox = function(options){
         attachEvent(el, 'mousedown', imgMouseDown);
         attachEvent(el, 'mousemove', imgMouseMove);
         attachEvent(document.body, 'mouseup', imgMouseUp);
-        var mousewheel = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
-        attachEvent(el, mousewheel, zoomImage);
+        if (options.scrollToZoom) {
+            var mousewheel = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+            attachEvent(el, mousewheel, zoomImage);
+        }
     };
     obj.image.src = options.imgSrc;
     attachEvent(el, 'DOMNodeRemoved', function(){detachEvent(document.body, 'DOMNodeRemoved', imgMouseUp)});
