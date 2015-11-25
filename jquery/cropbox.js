@@ -131,7 +131,9 @@
             el.bind('mousedown', imgMouseDown);
             el.bind('mousemove', imgMouseMove);
             $(window).bind('mouseup', imgMouseUp);
-            el.bind('mousewheel DOMMouseScroll', zoomImage);
+            if (options.scrollToZoom) {
+                el.bind('mousewheel DOMMouseScroll', zoomImage);
+            }
         };
         obj.image.src = options.imgSrc;
         el.on('remove', function(){$(window).unbind('mouseup', imgMouseUp)});
