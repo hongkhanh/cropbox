@@ -10,7 +10,13 @@
         factory(jQuery);
     }
 }(function ($) {
-    var cropbox = function(options, el){
+    var cropbox = function(options, el) {
+        var defaults = {
+            scrollToZoom : true
+        }
+
+        options = $.extend({}, defaults, options || {});
+
         var el = el || $(options.imageBox),
             obj =
             {
