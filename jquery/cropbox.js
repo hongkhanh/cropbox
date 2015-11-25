@@ -10,7 +10,13 @@
         factory(jQuery);
     }
 }(function ($) {
-    var cropbox = function(options, el){
+    var cropbox = function(options, el) {
+        var defaults = {
+            scrollToZoom : true
+        }
+
+        options = $.extend({}, defaults, options || {});
+
         var el = el || $(options.imageBox),
             obj =
             {
@@ -125,7 +131,9 @@
             el.bind('mousedown', imgMouseDown);
             el.bind('mousemove', imgMouseMove);
             $(window).bind('mouseup', imgMouseUp);
-            el.bind('mousewheel DOMMouseScroll', zoomImage);
+            if (options.scrollToZoom) {
+                el.bind('mousewheel DOMMouseScroll', zoomImage);
+            }
         };
         obj.image.src = options.imgSrc;
         el.on('remove', function(){$(window).unbind('mouseup', imgMouseUp)});
