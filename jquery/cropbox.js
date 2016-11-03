@@ -108,7 +108,7 @@
             },
             imgMouseUp = function(e)
             {
-                e.stopImmediatePropagation();
+                e.stopPropagation();
                 obj.state.dragable = false;
             },
             zoomImage = function(e)
