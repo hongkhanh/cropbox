@@ -48,7 +48,8 @@
             imageBox: '.imageBox',
             thumbBox: '.thumbBox',
             spinner: '.spinner',
-            imgSrc: 'avatar.png'
+            imgSrc: 'avatar.png',
+            format: 'png' // 'png' or 'jpg'
         }
         var cropper = new Y.cropbox(options);
         Y.one('#file').on('change', function(){
