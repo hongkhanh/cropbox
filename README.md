@@ -20,7 +20,8 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
             imageBox: '.imageBox',
             thumbBox: '.thumbBox',
             spinner: '.spinner',
-            imgSrc: 'avatar.png'
+            imgSrc: 'avatar.png',
+            format: 'png' // 'png' or 'jpg'
         }
         var cropper = new cropbox(options);
         document.querySelector('#file').addEventListener('change', function(){
@@ -53,7 +54,8 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
         {
             thumbBox: '.thumbBox',
             spinner: '.spinner',
-            imgSrc: 'avatar.png'
+            imgSrc: 'avatar.png',
+            format: 'png' // 'png' or 'jpg'
         }
         var cropper = $('.imageBox').cropbox(options);
         $('#file').on('change', function(){
@@ -125,7 +127,8 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
             imageBox: '.imageBox',
             thumbBox: '.thumbBox',
             spinner: '.spinner',
-            imgSrc: 'avatar.png'
+            imgSrc: 'avatar.png',
+            format: 'png' // 'png' or 'jpg'
         }
         var cropper = new Y.cropbox(options);
         Y.one('#file').on('change', function(){

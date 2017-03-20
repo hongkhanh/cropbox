@@ -20,6 +20,7 @@
                 imageBox : el,
                 thumbBox : el.find(options.thumbBox),
                 spinner : el.find(options.spinner),
+                format : options.format || 'png',
                 image : new Image(),
                 getDataURL: function ()
                 {
@@ -39,19 +40,35 @@
                     canvas.height = height;
                     var context = canvas.getContext("2d");
                     context.drawImage(this.image, 0, 0, sw, sh, dx, dy, dw, dh);
-                    var imageData = canvas.toDataURL('image/png');
+                    var imageData;
+                    if (this.format === 'png') {
+                        imageData = canvas.toDataURL('image/png');
+                    } else {
+                        imageData = canvas.toDataURL('image/jpeg', 1.0);
+                    }  
                     return imageData;
                 },
                 getBlob: function()
                 {
                     var imageData = this.getDataURL();
-                    var b64 = imageData.replace('data:image/png;base64,','');
+                    var b64;
+                    if (this.format === 'png') {
+                        b64 = imageData.replace('data:image/png;base64,','');
+                    } else {
+                        b64 = imageData.replace('data:image/jpeg;base64,','');
+                    }  
                     var binary = atob(b64);
                     var array = [];
                     for (var i = 0; i < binary.length; i++) {
                         array.push(binary.charCodeAt(i));
                     }
-                    return  new Blob([new Uint8Array(array)], {type: 'image/png'});
+                    var type;
+                    if (this.format === 'png') {
+                        type = 'image/png';
+                    } else {
+                        type = 'image/jpeg';
+                    }
+                    return  new Blob([new Uint8Array(array)], {type: type});
                 },
                 zoomIn: function ()
                 {
