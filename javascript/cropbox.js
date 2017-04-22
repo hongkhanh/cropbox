@@ -123,6 +123,35 @@ var cropbox = function(options){
         stopEvent(e);
         obj.state.dragable = false;
     },
+    imgTouchDown = function(e)
+    {
+       e.preventDefault();
+       obj.state.dragable= true;
+    },
+    imgTouchUp = function(e)
+    {
+        e.preventDefault();
+        obj.state.dragable= false;
+    },
+    imgTouchMove = function(e)
+    {
+        e.preventDefault();
+        if (obj.state.dragable)
+        {
+            var x = e.touches[0].pageX - obj.state.mouseX;
+            var y = e.touches[0].pageY - obj.state.mouseY;
+
+            var bg = el.style.backgroundPosition.split(' ');
+
+            var bgX = x + parseInt(bg[0]);
+            var bgY = y + parseInt(bg[1]);
+
+            el.style.backgroundPosition = bgX +'px ' + bgY + 'px';
+
+            obj.state.mouseX = e.touches[0].pageX;
+            obj.state.mouseY = e.touches[0].pageY;
+        }
+    },
     zoomImage = function(e)
     {
         var evt=window.event || e;
@@ -139,6 +168,11 @@ var cropbox = function(options){
         attachEvent(el, 'mousedown', imgMouseDown);
         attachEvent(el, 'mousemove', imgMouseMove);
         attachEvent(document.body, 'mouseup', imgMouseUp);
+
+        attachTouchEvent(el, 'touchstart', imgTouchDown);
+        attachTouchEvent(el, 'touchmove', imgTouchMove);
+        attachTouchEvent(document.body, 'touchend', imgTouchUp);
+
         var mousewheel = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
         attachEvent(el, mousewheel, zoomImage);
     };
