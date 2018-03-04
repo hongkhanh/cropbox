@@ -32,9 +32,13 @@ YUI.add('crop-box', function (Y) {
                     self.setBackground();
 
                     //event handler
+                    self.mouseup = Y.one('body').on('mouseup', self.imgMouseUp, self);
                     self.imageBox.on('mousedown', self.imgMouseDown, self);
                     self.imageBox.on('mousemove', self.imgMouseMove, self);
-                    self.mouseup = Y.one('body').on('mouseup', self.imgMouseUp, self);
+
+                    self.touchend = Y.one('body').on('touchend', self.imgTouchUp, self);
+                    self.imageBox.on('touchstart', self.imgTouchDown, self);
+                    self.imageBox.on('touchmove', self.imgTouchMove, self);
 
                     Y.UA.gecko > 0?
                         self.imageBox.on('DOMMouseScroll', self.zoomImage, self):
@@ -65,6 +69,13 @@ YUI.add('crop-box', function (Y) {
                 this.state.mouseX = e.clientX;
                 this.state.mouseY = e.clientY;
             },
+            imgTouchDown: function(e)
+            {
+                e.stopImmediatePropagation();
+                obj.state.dragable = true;
+                obj.state.mouseX = e.changedTouches[0].clientX;
+                obj.state.mouseY = e.changedTouches[0].clientY;       
+            },            
             imgMouseMove: function(e)
             {
                 e.stopImmediatePropagation();
@@ -84,11 +95,35 @@ YUI.add('crop-box', function (Y) {
                     this.state.mouseY = e.clientY;
                 }
             },
+            imgTouchMove: function(e)
+            {
+                e.stopImmediatePropagation();
+                if(obj.state.dragable)
+                {
+                    var x = e.changedTouches[0].clientX - obj.state.mouseX;
+                    var y = e.changedTouches[0].clientY - obj.state.mouseY;
+
+                    var bg = this.imageBox.getStyle('backgroundPosition').split(' ');
+
+                    var bgX = x + parseInt(bg[0]);
+                    var bgY = y + parseInt(bg[1]);
+
+                    this.imageBox.setStyle('backgroundPosition', bgX +'px ' + bgY + 'px');
+
+                    obj.state.mouseX = e.changedTouches[0].clientX;
+                    obj.state.mouseY = e.changedTouches[0].clientY; 
+                }
+            },            
             imgMouseUp: function(e)
             {
                 e.stopImmediatePropagation();
                 this.state.dragable = false;
             },
+            imgTouchUp: function(e)
+            {
+                e.stopImmediatePropagation();
+                obj.state.dragable = false;
+            },  
             zoomImage: function(e)
             {
                 e.wheelDelta > 0? this.ratio*=1.1 : this.ratio*=0.9;
