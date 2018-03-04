@@ -98,11 +98,19 @@ var cropbox = function(options){
         obj.state.mouseX = e.clientX;
         obj.state.mouseY = e.clientY;
     },
+    imgTouchDown = function(e)
+    {
+        stopEvent(e);
+
+        obj.state.dragable = true;
+        obj.state.mouseX = e.changedTouches[0].clientX;
+        obj.state.mouseY = e.changedTouches[0].clientY;       
+    },
     imgMouseMove = function(e)
     {
         stopEvent(e);
 
-        if (obj.state.dragable)
+        if(obj.state.dragable)
         {
             var x = e.clientX - obj.state.mouseX;
             var y = e.clientY - obj.state.mouseY;
@@ -115,7 +123,27 @@ var cropbox = function(options){
             el.style.backgroundPosition = bgX +'px ' + bgY + 'px';
 
             obj.state.mouseX = e.clientX;
-            obj.state.mouseY = e.clientY;
+            obj.state.mouseY = e.clientY; 
+        }
+    },
+    imgTouchMove = function(e)
+    {
+        stopEvent(e);
+
+        if(obj.state.dragable)
+        {
+            var x = e.changedTouches[0].clientX - obj.state.mouseX;
+            var y = e.changedTouches[0].clientY - obj.state.mouseY;
+
+            var bg = el.style.backgroundPosition.split(' ');
+
+            var bgX = x + parseInt(bg[0]);
+            var bgY = y + parseInt(bg[1]);
+
+            el.style.backgroundPosition = bgX +'px ' + bgY + 'px';
+
+            obj.state.mouseX = e.changedTouches[0].clientX;
+            obj.state.mouseY = e.changedTouches[0].clientY; 
         }
     },
     imgMouseUp = function(e)
@@ -123,6 +151,11 @@ var cropbox = function(options){
         stopEvent(e);
         obj.state.dragable = false;
     },
+    imgTouchUp = function(e)
+    {
+        stopEvent(e);
+        obj.state.dragable = false;
+    },    
     zoomImage = function(e)
     {
         var evt=window.event || e;
@@ -136,9 +169,15 @@ var cropbox = function(options){
         obj.spinner.style.display = 'none';
         setBackground();
 
+        attachEvent(document.body, 'mouseup', imgMouseUp);
         attachEvent(el, 'mousedown', imgMouseDown);
         attachEvent(el, 'mousemove', imgMouseMove);
-        attachEvent(document.body, 'mouseup', imgMouseUp);
+
+        attachEvent(document.body, 'touchend', imgTouchUp);
+        attachEvent(el, 'touchstart', imgTouchDown);
+        attachEvent(el, 'touchmove', imgTouchMove);
+
+    
         var mousewheel = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
         attachEvent(el, mousewheel, zoomImage);
     };
