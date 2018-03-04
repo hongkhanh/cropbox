@@ -86,6 +86,14 @@
                 obj.state.mouseX = e.clientX;
                 obj.state.mouseY = e.clientY;
             },
+            imgTouchDown = function(e)
+            {
+                e.stopImmediatePropagation();
+
+                obj.state.dragable = true;
+                obj.state.mouseX = e.changedTouches[0].clientX;
+                obj.state.mouseY = e.changedTouches[0].clientY;       
+            },
             imgMouseMove = function(e)
             {
                 e.stopImmediatePropagation();
@@ -106,11 +114,36 @@
                     obj.state.mouseY = e.clientY;
                 }
             },
+            imgTouchMove = function(e)
+            {
+                e.stopImmediatePropagation();
+
+                if(obj.state.dragable)
+                {
+                    var x = e.changedTouches[0].clientX - obj.state.mouseX;
+                    var y = e.changedTouches[0].clientY - obj.state.mouseY;
+
+                    var bg = el.css('background-position').split(' ');
+
+                    var bgX = x + parseInt(bg[0]);
+                    var bgY = y + parseInt(bg[1]);
+
+                    el.css('background-position', bgX +'px ' + bgY + 'px');
+
+                    obj.state.mouseX = e.changedTouches[0].clientX;
+                    obj.state.mouseY = e.changedTouches[0].clientY; 
+                }
+            },            
             imgMouseUp = function(e)
             {
                 e.stopImmediatePropagation();
                 obj.state.dragable = false;
             },
+            imgTouchUp = function(e)
+            {
+                e.stopImmediatePropagation();
+                obj.state.dragable = false;
+            },             
             zoomImage = function(e)
             {
                 e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0 ? obj.ratio*=1.1 : obj.ratio*=0.9;
@@ -122,9 +155,14 @@
             obj.spinner.hide();
             setBackground();
 
+            $(window).bind('mouseup', imgMouseUp);
             el.bind('mousedown', imgMouseDown);
             el.bind('mousemove', imgMouseMove);
-            $(window).bind('mouseup', imgMouseUp);
+            
+            $(window).bind('touchend', imgTouchUp);
+            el.bind('touchstart', imgTouchDown);
+            el.bind('touchmove', imgTouchMove);
+
             el.bind('mousewheel DOMMouseScroll', zoomImage);
         };
         obj.image.src = options.imgSrc;
@@ -137,5 +175,3 @@
         return new cropbox(options, this);
     };
 }));
-
-
