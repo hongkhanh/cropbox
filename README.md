@@ -7,11 +7,10 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
 - support dataUrl for displaying image (function getDataURL)
 - support Blob for uploading image (function getBlob)
 
-##Screenshot
+## Screenshot
 ![ScreenShot](/screenshot.jpg)
 
 # Usage
-
 ## Pure javascript
 
     window.onload = function() {
@@ -46,7 +45,7 @@ A lightweight and simple JavaScript, Jquery, YUI plugin to crop your avatar.
 
 [Demo](http://cssdeck.com/labs/xnmcokhc)
 
-## Jquery plugin
+## jQuery plugin
 
     $(window).load(function() {
         var options =
